@@ -1,5 +1,5 @@
 
-import * as axios from 'axios';
+import   axios from 'axios';
 const postData = async (url = '', data, token=false) => {
     let tokenData = ''
     if(token){

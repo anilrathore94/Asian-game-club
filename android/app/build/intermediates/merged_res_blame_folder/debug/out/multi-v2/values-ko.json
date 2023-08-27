@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/anilkumar/Documents/Project/My project/Asian Game cllub/Asian Club/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ko/values-ko.xml",
+            "outputFile": "/Users/anilkumar/Documents/GitHub/Asian-game-club/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ko/values-ko.xml",
             "map": [
                 {
                     "source": "/Users/anilkumar/.gradle/caches/transforms-3/ede209314179b91289413b8be3352c84/transformed/jetified-ucrop-2.2.6-native/res/values-ko/values-ko.xml",

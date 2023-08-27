@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/anilkumar/Documents/Project/My project/Asian Game cllub/Asian Club/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-lo/values-lo.xml",
+            "outputFile": "/Users/anilkumar/Documents/GitHub/Asian-game-club/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-lo/values-lo.xml",
             "map": [
                 {
                     "source": "/Users/anilkumar/.gradle/caches/transforms-3/d93cbbdf0251fee57935efe66dd5caa8/transformed/appcompat-1.3.1/res/values-lo/values-lo.xml",

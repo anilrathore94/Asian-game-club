@@ -1,19 +1,8 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/anilkumar/Documents/Project/My project/Asian Game cllub/Asian Club/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-night-v8/values-night-v8.xml",
+            "outputFile": "/Users/anilkumar/Documents/GitHub/Asian-game-club/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-night-v8/values-night-v8.xml",
             "map": [
-                {
-                    "source": "/Users/anilkumar/Documents/Project/My project/Asian Game cllub/Asian Club/node_modules/@react-native-community/datetimepicker/android/build/intermediates/packaged_res/debug/values-night-v8/values-night-v8.xml",
-                    "from": {
-                        "startLines": "2,5",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,200",
-                        "endLines": "4,7",
-                        "endColumns": "9,9",
-                        "endOffsets": "195,340"
-                    }
-                },
                 {
                     "source": "/Users/anilkumar/.gradle/caches/transforms-3/7c0c7e113c074df493b9385345dc4b6b/transformed/material-1.1.0/res/values-night-v8/values-night-v8.xml",
                     "from": {
@@ -46,6 +35,17 @@
                         "startOffsets": "345,415,499,583,679,781,883,2839",
                         "endColumns": "69,83,83,95,101,101,93,88",
                         "endOffsets": "410,494,578,674,776,878,972,2923"
+                    }
+                },
+                {
+                    "source": "/Users/anilkumar/Documents/GitHub/Asian-game-club/node_modules/@react-native-community/datetimepicker/android/build/intermediates/packaged_res/debug/values-night-v8/values-night-v8.xml",
+                    "from": {
+                        "startLines": "2,5",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,200",
+                        "endLines": "4,7",
+                        "endColumns": "9,9",
+                        "endOffsets": "195,340"
                     }
                 }
             ]

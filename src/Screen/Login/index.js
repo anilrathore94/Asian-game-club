@@ -124,6 +124,7 @@ function Login(props) {
                 AsyncStorage.setItem('userid', result.data.userId);
                 Toast.show({ type: "success", text1: result.message });
                 setAnimating(false)
+                setPhone('')
                 setModalVisible(!modalVisible)
                 props.navigation.navigate('Tabs')
             } else {
@@ -227,7 +228,8 @@ const s = StyleConstants, c = ColorsConstant, styles = StyleSheet.create({
         marginLeft: 5,
         borderColor: ColorsConstant.Hashcolortheme,
         textAlign: 'center',
-        marginVertical: 10
+        marginVertical: 10,
+        color:c.Black
     },
     focusCell: {
         borderColor: 'blue'

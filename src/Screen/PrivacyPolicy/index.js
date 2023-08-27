@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, ScrollView } from "react-native";
 import Textfs12 from "../../component/TextCom/Textfs12";
 import { ColorsConstant } from "../../constants/Colors.constant";
 import { StyleConstants } from "../../constants/Style.constant";
@@ -31,7 +31,6 @@ function PrivacyPolicy(props) {
             let result = await apiCall(url, request);
             if (result.status == 200) {
                 setDescription(result.data[0].description)
-                console.log('---------UserId---', description)
                 setAnimating(false)
             } else {
                 Toast.show({ type: "error", text1: result.message });
@@ -42,32 +41,37 @@ function PrivacyPolicy(props) {
         }
     }
     const source = {
-        html:description
+        html: description
     };
     return (
         <>
             <Header leftButtonType={"back"} title="PrivacyPolicy" leftButtonAction={_goBack} animating={animating} setAnimating={setAnimating} />
             <View style={s.container} >
-                <View style={styles.cardView}  >
-                <TextBold color={c.Black} title="Privacy Policy" />
-                    <RenderHtml
-                        contentWidth={width}
-                        source={source}
-                        style={{ color: 'red' }}
-                    />
-                    {/* <TextBold color={c.Black} title="Privacy Policy" />
-                    <Text style={{ fontSize: 12, fontFamily: fontFamily.Regular }}>This is the Privacy</Text>
-                    <View style={{ marginTop: 10 }}>
-                        <Text style={styles.textsty}>1. This is the first Policy</Text>
-                        <Text style={styles.textsty}>2. This is the second Policy</Text>
-                        <Text style={styles.textsty}>3. This is the third Policy</Text>
-                    </View> */}
-                </View>
+                <ScrollView showsVerticalScrollIndicator={false} >
+                    <View style={styles.cardView}  >
+                        {/* <TextBold color={c.Black} title="Privacy Policy" /> */}
+                        <RenderHtml
+                            contentWidth={width}
+                            source={source}
+                            tagsStyles={tagsStyles}
+                        />
+                    </View>
+                </ScrollView>
             </View>
 
         </>
     )
 }
+const tagsStyles = {
+    body: {
+        fontFamily: fontFamily.semiBold,
+        color: c.Black
+    },
+    a: {
+        color: c.Black,
+        fontFamily: fontFamily.medium,
+    }
+};
 const s = StyleConstants, c = ColorsConstant, styles = StyleSheet.create({
     cardView: {
         marginTop: 20,

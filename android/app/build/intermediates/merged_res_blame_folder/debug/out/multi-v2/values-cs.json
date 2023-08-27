@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/anilkumar/Documents/Project/My project/Asian Game cllub/Asian Club/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-cs/values-cs.xml",
+            "outputFile": "/Users/anilkumar/Documents/GitHub/Asian-game-club/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-cs/values-cs.xml",
             "map": [
                 {
                     "source": "/Users/anilkumar/.gradle/caches/transforms-3/55f5c5c6a27548aba5f14a1807f05a4a/transformed/jetified-play-services-base-18.0.1/res/values-cs/values.xml",

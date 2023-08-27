@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/anilkumar/Documents/Project/My project/Asian Game cllub/Asian Club/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sw600dp-v13/values-sw600dp-v13.xml",
+            "outputFile": "/Users/anilkumar/Documents/GitHub/Asian-game-club/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sw600dp-v13/values-sw600dp-v13.xml",
             "map": [
                 {
                     "source": "/Users/anilkumar/.gradle/caches/transforms-3/d93cbbdf0251fee57935efe66dd5caa8/transformed/appcompat-1.3.1/res/values-sw600dp-v13/values-sw600dp-v13.xml",
@@ -40,7 +40,7 @@
                     }
                 },
                 {
-                    "source": "/Users/anilkumar/.gradle/caches/transforms-3/7def941eebb4c6f1ce3be3778cb25db5/transformed/jetified-checkout-1.6.30/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "source": "/Users/anilkumar/.gradle/caches/transforms-3/56254c50d8989ead66a990cb484d65fb/transformed/jetified-checkout-1.6.34/res/values-sw600dp-v13/values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",

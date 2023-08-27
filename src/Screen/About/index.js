@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, useWindowDimensions } from "react-native";
 import Textfs12 from "../../component/TextCom/Textfs12";
 import { ColorsConstant } from "../../constants/Colors.constant";
 import { StyleConstants } from "../../constants/Style.constant";
@@ -7,8 +7,10 @@ import Header from "../../Widget/Header";
 import TextBold from "../../component/TextCom/TextBold";
 import { fontFamily } from "../../constants/font";
 import { apiCall } from "../../services/AppSetting";
+import RenderHtml from 'react-native-render-html';
 
 function About(props) {
+    const { width } = useWindowDimensions();
     const _goBack = () => {
         return props.navigation.navigate('Tabs', { screen: 'Account' })
     };
@@ -26,7 +28,8 @@ function About(props) {
             setAnimating(true)
             let result = await apiCall(url, request);
             if (result.status == 200) {
-                setDescription(result.data[0])
+                setDescription(result.data[0].description)
+                console.log('------description----',result.data[0])
                 setAnimating(false)
             } else {
                 Toast.show({ type: "error", text1: result.message });
@@ -36,20 +39,43 @@ function About(props) {
             console.log('error', error)
         }
     }
+    const source = {
+        html: description
+    };
     return (
         <>
             <Header leftButtonType={"back"} title="About" leftButtonAction={_goBack}
-            animating={animating} setAnimating={setAnimating} />
+                animating={animating} setAnimating={setAnimating} />
             <View style={s.container} >
-                <View style={styles.cardView}  >
+                {/* <View style={styles.cardView}  >
+                    <Text style={styles.textsty}>{description}</Text>
                     <TextBold color={c.Black} title={description.title} />
-                    <Text style={styles.textsty}>{description.description}</Text>
-                </View>
+                </View> */}
+                <ScrollView showsVerticalScrollIndicator={false} >
+                    <View style={styles.cardView}  >
+                        {/* <TextBold color={c.Black} title="Privacy Policy" /> */}
+                        <RenderHtml
+                            contentWidth={width}
+                            source={source}
+                            tagsStyles={tagsStyles}
+                        />
+                    </View>
+                </ScrollView>
             </View>
 
         </>
     )
 }
+const tagsStyles = {
+    body: {
+        fontFamily: fontFamily.semiBold,
+        color: c.Black
+    },
+    a: {
+        color: c.Black,
+        fontFamily: fontFamily.medium,
+    }
+};
 const s = StyleConstants, c = ColorsConstant, styles = StyleSheet.create({
     cardView: {
         marginTop: 20,

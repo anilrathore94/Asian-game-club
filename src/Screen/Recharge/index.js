@@ -56,7 +56,7 @@ function Recharge(props) {
         if (amount == '') {
             err = true
             errMsg = "Please Enter Amount"
-        }  else if (amount < 300) {
+        } else if (amount < 300) {
             err = true
             errMsg = "Amount should be greater than Rs.300"
         }

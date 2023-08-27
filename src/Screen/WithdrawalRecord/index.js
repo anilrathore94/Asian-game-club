@@ -90,7 +90,7 @@ const WithdrawalRecord = (props) => {
                         <Text style={styles.textc}>Charges</Text>
                     </View>
                 </View>
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false} >
                     {_renderItem(dataList || [])}
                 </ScrollView>
                 {/* <View style={{ marginTop: 15 }}>

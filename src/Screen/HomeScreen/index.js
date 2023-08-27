@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, ScrollView, Image, RefreshControl } from "react-native";
 import { ColorsConstant } from "../../constants/Colors.constant";
 import { fontFamily } from "../../constants/font";
@@ -12,15 +12,17 @@ import LargefillBtn from "../../component/Button/LargefillBtn";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { apiCall, get_url } from "../../services/AppSetting";
 import Toast from "react-native-toast-message";
-import moment from 'moment';
 import LinearGradient from 'react-native-linear-gradient';
+import { useFocusEffect } from "@react-navigation/native";
 
 
 function HomeScreen(props) {
     //////////////////////////////////////// time //////////////////////
     const { initialMinute = 0, initialSeconds = 0 } = props;
-    const [minutes, setMinutes] = useState(initialMinute);
-    const [seconds, setSeconds] = useState(initialSeconds);
+    const [diamandTime, setDiamandTime] = useState(initialMinute)
+    const [diamseconds, setDiamSeconds] = useState(initialSeconds);
+    const [goldTime, setGoldTime] = useState(initialMinute)
+    const [goldmseconds, setGoldSeconds] = useState(initialSeconds);
     const [animating, setAnimating] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [count, setCount] = useState(1);
@@ -31,21 +33,37 @@ function HomeScreen(props) {
     const [selectValue, setSelectValue] = useState('')
     const [activeTabs, setActiveTabs] = useState('diamand');
     const [recordlist, setRecordlist] = useState([])
-    const [biddetails, setBiddetails] = useState('')
+    const [biddetails, setBiddetails] = useState('');
+    const [diamtiem, setDiamtiem] = useState('')
+    const [goldtiemup, setGoldTimeup] = useState('')
+
+    ////////////////////////////////////////////////////
     useEffect(() => {
         let myInterval = setInterval(() => {
-            if (seconds > 0) {
-                setSeconds(seconds - 1);
+            if (diamseconds > 0) {
+                setDiamSeconds(diamseconds - 1);
             }
-            if (seconds === 0) {
-                if (minutes === 0) {
+            if (diamseconds === 0) {
+                if (diamandTime === 0) {
                     clearInterval(myInterval)
-                    setMinutes(1)
-                    getbid_details()
-                    console.log('sdfjh')
+                    setDiamandTime(diamtiem)
+                    getbid_details("diamand")
                 } else {
-                    setMinutes(minutes - 1);
-                    setSeconds(59);
+                    setDiamandTime(diamandTime - 1);
+                    setDiamSeconds(59);
+                }
+            }
+            if (goldmseconds > 0) {
+                setGoldSeconds(goldmseconds - 1);
+            }
+            if (goldmseconds === 0) {
+                if (goldTime === 0) {
+                    clearInterval(myInterval)
+                    setGoldTime(goldtiemup)
+                    getbid_details("gold")
+                } else {
+                    setGoldTime(goldTime - 1);
+                    setGoldSeconds(59);
                 }
             }
         }, 1000)
@@ -55,9 +73,6 @@ function HomeScreen(props) {
     });
 
 
-    const onRefresh = React.useCallback(() => {
-        getprofile()
-    }, []);
     const onclickCount = (value) => {
         setCount(value)
         setTotleFee(value * money)
@@ -83,11 +98,16 @@ function HomeScreen(props) {
 
     const [getUserData, setGetUserData] = useState('')
     useEffect(() => {
-        getprofile()
-        getold_result()
-        getbid_details()
-        getgame_fetch("diamand")
+        getold_result("diamand")
+        getbid_details('diamand')
+        getgame_fetch()
     }, [props]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            getprofile()
+        }, [])
+    );
     const getprofile = async (value) => {
         let UserId = await AsyncStorage.getItem('userid')
         try {
@@ -95,7 +115,7 @@ function HomeScreen(props) {
             let request = {
                 id: UserId
             }
-            setAnimating(true)
+            // setAnimating(true)
             let result = await apiCall(url, request);
             if (result.status == 200) {
                 setGetUserData(result.data[0])
@@ -112,9 +132,9 @@ function HomeScreen(props) {
         try {
             let url = "old-result.php"
             let request = {
-                category: activeTabs
+                category: value
             }
-            setAnimating(true)
+            // setAnimating(true)
             let result = await apiCall(url, request);
             if (result.status == 200) {
                 setRecordlist(result.data)
@@ -130,10 +150,14 @@ function HomeScreen(props) {
     const getbid_details = async (value) => {
         try {
             let url = "bid-details.php"
-            setAnimating(true)
-            let result = await get_url(url);
+            let request = {
+                category: value
+            }
+            // setAnimating(true)
+            let result = await apiCall(url, request);
             if (result.status == 200) {
-                setBiddetails(result.data);
+                setBiddetails(result.data)
+                // setGoldTime(result.data.time)
                 setAnimating(false)
             } else {
                 Toast.show({ type: "error", text1: result.message });
@@ -142,16 +166,23 @@ function HomeScreen(props) {
         } catch (error) {
             console.log('error', error)
         }
+
     }
     const getgame_fetch = async (value) => {
         try {
             let url = "game-fetch.php"
-            setAnimating(true)
+            // setAnimating(true)
             let result = await get_url(url);
             if (result.status == 200) {
-                let time = value == "diamand" ? 0 : 1
-                setSeconds(0)
-                setMinutes(result.data[time].time)
+                // let diatime = value == "diamand" ? 0 : 1
+                // let goltime = value == "gold" ? 0 : 1
+                setDiamSeconds(0)
+                if (diamandTime == 0) {
+                    setDiamandTime(result.data[0].time);
+                    setDiamtiem(result.data[0].time);
+                    setGoldTimeup(result.data[1].time)
+                    setGoldTime(result.data[1].time)
+                }
                 setAnimating(false)
             } else {
                 Toast.show({ type: "error", text1: result.message });
@@ -222,22 +253,19 @@ function HomeScreen(props) {
         <>
             <Header leftButttonType={"noIcon"} title="Home" animating={animating} setAnimating={setAnimating} />
             <View style={s.container} >
-                <ScrollView showsVerticalScrollIndicator={false} refreshControl={
-                    <RefreshControl
-                        refreshing={animating}
-                        onRefresh={onRefresh}
-                    />
-                } >
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.menuView} >
                         <View style={[s.RowView, { padding: 10 }]}  >
                             <View>
                                 <Text style={styles.textStyle} >My Balance</Text>
                                 <Text style={styles.textStyle} >₹ {getUserData.wallet}</Text>
                                 <Text style={styles.textStyle} >Period</Text>
-
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                                <View style={{ width: 50, height: 50, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderRadius: 25, borderColor: c.White, marginRight: 20 }}>
+                                <View style={[styles.activnumberView, {
+                                    backgroundColor: biddetails.number % 2 != 0 ? c.success : "#d80041"
+
+                                }]}>
                                     <Text style={[styles.textStyle, { fontSize: 28 }]} >{biddetails.number}</Text>
                                 </View>
                                 <View>
@@ -248,13 +276,10 @@ function HomeScreen(props) {
                         </View>
                         <View style={[s.RowView, { elevation: 0.5, backgroundColor: '#42ce76bd', width: screenWidth - 32, padding: 5 }]} >
                             <Text style={styles.textStyle} >{biddetails.period}</Text>
-                            {minutes === 0 && seconds === 0
-                                ? null
-                                : <Text style={styles.textStyle}> {minutes} :{seconds < 10 ? `0${seconds}` : seconds}</Text>
+                            {activeTabs == "diamand" ?
+                                <Text style={styles.textStyle}> {diamandTime} :{diamseconds < 10 ? `0${diamseconds}` : diamseconds}</Text>
+                                : <Text style={styles.textStyle}> {goldTime} :{goldmseconds < 10 ? `0${goldmseconds}` : goldmseconds}</Text>
                             }
-                            {/* <Text style={styles.textStyle} >{time.time}</Text> */}
-                            {/* <Text style={styles.textStyle} >{"0" + " : " + counter}</Text> */}
-
                         </View>
                     </View>
                     <View style={{ marginTop: 10 }} >
@@ -268,11 +293,11 @@ function HomeScreen(props) {
                     </View>
                     <View style={s.TouchableView}>
                         <TouchableOpacity
-                            onPress={() => { setActiveTabs('diamand'), getold_result(),getgame_fetch("diamand") ,getbid_details()}}
+                            onPress={() => { setActiveTabs('diamand'), getbid_details('diamand') }}
                             style={[styles.oapcity, { backgroundColor: activeTabs == 'diamand' ? c.success : c.White }]}>
                             <Text style={[s.texttop, { color: activeTabs == "diamand" ? c.White : c.Black }]}>Diamand</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setActiveTabs('gold'), getold_result(),getgame_fetch("gold"),getbid_details() }}
+                        <TouchableOpacity onPress={() => { setActiveTabs('gold'), getbid_details('gold') }}
                             style={[styles.oapcity, { backgroundColor: activeTabs == 'gold' ? c.success : c.White }]}>
                             <Text style={[s.texttop, { color: activeTabs == "gold" ? c.White : c.Black }]}>Gold</Text>
                         </TouchableOpacity>
@@ -295,33 +320,35 @@ function HomeScreen(props) {
                                 <Text style={styles.textbtn}>Lucky</Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList
-                            data={dataList}
-                            numColumns={5}
-                            keyExtractor={item => item.id}
-                            showsVerticalScrollIndicator={false}
-                            renderItem={({ item, index }) => (
-                                <>
-                                    {
-                                        index == 5 || index == 0 ?
-                                            <LinearGradient colors={['#770fa4', "#770fa4", index == 0 ? c.Error : '#0f0']} start={{ x: 0, y: 0 }} end={{ x: 0.7, y: 0 }} style={[styles.itemView]}>
+                        <View style={{ height: 125 }} >
+                            <FlatList
+                                data={dataList}
+                                numColumns={5}
+                                keyExtractor={item => item.id}
+                                showsVerticalScrollIndicator={false}
+                                renderItem={({ item, index }) => (
+                                    <>
+                                        {
+                                            index == 5 || index == 0 ?
                                                 <TouchableOpacity key={index}
                                                     onPress={() => { setModalVisible(true), setSelectValue(item.title) }} style={{}}>
+                                                    <LinearGradient colors={['#770fa4', "#770fa4", index == 0 ? c.Error : '#0f0']} start={{ x: 0, y: 0 }} end={{ x: 0.7, y: 0 }} style={[styles.itemView]}>
+                                                        <Text style={[styles.textStyle, { fontSize: 20 }]} >{item.title}</Text>
+                                                    </LinearGradient>
+                                                </TouchableOpacity> :
+                                                <TouchableOpacity key={index}
+                                                    onPress={() => { setModalVisible(true), setSelectValue(item.title) }}
+                                                    style={[styles.itemView, { backgroundColor: index % 2 != 0 ? c.success : "#d80041", }]}>
                                                     <Text style={[styles.textStyle, { fontSize: 20 }]} >{item.title}</Text>
                                                 </TouchableOpacity>
-                                            </LinearGradient> :
-                                            <TouchableOpacity key={index}
-                                                onPress={() => { setModalVisible(true), setSelectValue(item.title) }}
-                                                style={[styles.itemView, { backgroundColor: index % 2 != 0 ? c.success : "#d80041", }]}>
-                                                <Text style={[styles.textStyle, { fontSize: 20 }]} >{item.title}</Text>
-                                            </TouchableOpacity>
 
-                                    }
-                                </>
-                            )}
-                        />
+                                        }
+                                    </>
+                                )}
+                            />
+                        </View>
                     </View>
-                    <Textfs12 title="Record" />
+                    <Textfs12 color={c.White} title="Record" />
                     <View style={[s.RowView, { backgroundColor: '#eaeaea', padding: 10 }]}  >
                         <View style={{ width: screenWidth / 4, marginRight: 10 }} >
                             <Textfs12 title="Period" />
@@ -336,7 +363,7 @@ function HomeScreen(props) {
                             <Textfs12 title="Result" />
                         </View>
                     </View>
-                    <ScrollView nestedScrollEnabled={true} style={{ maxHeight: screenHeight / 3 + 40 }} >
+                    <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} style={{ maxHeight: screenHeight / 3 + 40 }} >
                         {_renderItem(recordlist || [])}
                     </ScrollView>
                 </ScrollView>
@@ -390,11 +417,11 @@ function HomeScreen(props) {
                                 <Text>Number : Maxinumlowersinglular 999 hands</Text>
                                 <View style={styles.rowView} >
                                     <TouchableOpacity disabled={count == 1 ? true : false} onPress={() => { setCount(count - 1), setTotleFee(money * count) }} style={styles.botton} >
-                                        <Text style={{ fontFamily: fontFamily.extraBold, fontSize: 14 }} >-</Text>
+                                        <Text style={{ fontFamily: fontFamily.extraBold, fontSize: 14, color: c.Black }} >-</Text>
                                     </TouchableOpacity>
                                     <Textfs12 title={count} />
                                     <TouchableOpacity onPress={() => onclickCount(count + 1)} style={[styles.botton, { marginLeft: 10 }]} >
-                                        <Text style={{ fontFamily: fontFamily.extraBold, fontSize: 14 }} >+</Text>
+                                        <Text style={{ fontFamily: fontFamily.extraBold, fontSize: 14, color: c.Black }} >+</Text>
                                     </TouchableOpacity>
                                 </View>
                                 <Textfs12 title={`Fee : ${totleFee}`} />
@@ -461,7 +488,8 @@ const s = StyleConstants, c = ColorsConstant, styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 30,
-        marginRight: 16
+        marginRight: 16,
+        marginBottom: 2
     },
     itemtext: {
         fontSize: 12,
@@ -486,6 +514,15 @@ const s = StyleConstants, c = ColorsConstant, styles = StyleSheet.create({
     textst: {
         fontSize: 12,
         fontFamily: fontFamily.medium
+    },
+    activnumberView: {
+        width: 50, height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderRadius: 25,
+        borderColor: c.White,
+        marginRight: 20
     }
 })
 export default HomeScreen;

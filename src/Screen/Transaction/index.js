@@ -139,7 +139,7 @@ const Transaction = (props) => {
             <Text style={styles.textc}>Particulars</Text>
           </View>
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false} >
           {_renderItem(dataList || [])}
           <View style={{height:10}} />
         </ScrollView>

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import LargefillBtn from "../../component/Button/LargefillBtn";
-import Lineoutline from "../../component/Button/Lineoutline";
-import Textfs12 from "../../component/TextCom/Textfs12";
 import { ColorsConstant } from "../../constants/Colors.constant";
 import { fontFamily } from "../../constants/font";
 import { StyleConstants } from "../../constants/Style.constant";
@@ -123,13 +121,15 @@ const s = StyleConstants, c = ColorsConstant, styles = StyleSheet.create({
         color: c.White,
         fontSize: 18,
         fontFamily: fontFamily.bold,
+        marginTop:5
 
     },
     inputstyle: {
         borderBottomWidth: 1,
         borderColor:c.gary,
         marginBottom: 16,
-        color:c.White
+        color:c.White,
+        height:35
     }
 })
 export default Profile

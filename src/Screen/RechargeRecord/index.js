@@ -132,7 +132,7 @@ const RechargeRecord = (props) => {
             <Text style={styles.textc}>Date</Text>
           </View>
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false} >
           {_renderItem(dataList || [])}
         </ScrollView>
         {/* <View style={{ marginTop: 15 }}>
