@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, Modal, Platform } from
 import { ColorsConstant } from '../../constants/Colors.constant';
 import Images from '../../constants/Images';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import DeviceInfo from 'react-native-device-info';
+// import DeviceInfo from 'react-native-device-info';
 import { get_url } from '../../services/AppSetting';
 import { screenHeight, screenWidth } from '../../constants/Sizes.constant';
 import { StyleConstants } from '../../constants/Style.constant';
@@ -40,15 +40,15 @@ function Splash(props) {
           }
         }
         else {
-          if (DeviceInfo.getBuildNumber() >= result.data.appVersion) {
-            AsyncStorage.setItem('androidUrl', result.data.appUrl);
+          // if (DeviceInfo.getBuildNumber() >= result.data.appVersion) {
+          //   AsyncStorage.setItem('androidUrl', result.data.appUrl);
             AsyncStorage.getItem("userid").then((value) => {
               getUserVeried(value);
             });
-          } else {
-            setAndroidUrl(result.data.appUrl)
-            setModalVisible(true)
-          }
+          // } else {
+          //   setAndroidUrl(result.data.appUrl)
+          //   setModalVisible(true)
+          // }
         }
       }
     } catch (error) {

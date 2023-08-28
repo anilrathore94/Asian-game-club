@@ -5,7 +5,7 @@ import { fontFamily } from "../../constants/font";
 import { screenWidth } from "../../constants/Sizes.constant";
 import { StyleConstants } from "../../constants/Style.constant";
 import Header from "../../Widget/Header";
-import AntDesign from "react-native-vector-icons/AntDesign";
+// import AntDesign from "react-native-vector-icons/AntDesign";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Account(props) {
@@ -83,11 +83,11 @@ function Account(props) {
                     renderItem={({ item, index }) => (
                         <View key={index} style={styles.itemView}>
                             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => listAction(item.routes, index)}  >
-                                <AntDesign
+                                {/* <AntDesign
                                     name={item.images}
                                     color={ColorsConstant.White}
                                     style={{ marginRight: 10 }}
-                                    size={20} />
+                                    size={20} /> */}
                                 <Text style={styles.textitem} >{item.title}</Text>
 
                             </TouchableOpacity>
